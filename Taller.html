@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retos TIC en Ingeniería y Derecho</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .slide h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .slide h2 {
+            font-size: 2.5em;
+            color: #34495e;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .slide h3 {
+            font-size: 1.8em;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .infographic {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #3498db;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .info-card.engineering {
+            border-left-color: #e74c3c;
+        }
+
+        .info-card.law {
+            border-left-color: #f39c12;
+        }
+
+        .info-card.hybrid {
+            border-left-color: #9b59b6;
+        }
+
+        .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .engineering { color: #e74c3c; }
+        .law { color: #f39c12; }
+        .hybrid { color: #9b59b6; }
+        .security { color: #e67e22; }
+        .ethics { color: #27ae60; }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .smart-design {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .content-column {
+            flex: 1;
+        }
+
+        .visual-column {
+            flex: 1;
+            text-align: center;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            border-radius: 10px;
+            transition: width 2s ease;
+        }
+
+        .citation {
+            font-size: 0.9em;
+            font-style: italic;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(236, 240, 241, 0.5);
+            border-radius: 10px;
+        }
+
+        .conclusion-box {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(116, 185, 255, 0.3);
+        }
+
+        ul {
+            text-align: left;
+            max-width: 800px;
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, rgba(116, 185, 255, 0.1), rgba(9, 132, 227, 0.1));
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">16</span>
+        </div>
+
+        <!-- Slide 1: Título -->
+        <div class="slide active title-slide">
+            <div class="slide-header">
+                <h1>🚀 RETOS TIC EN INGENIERÍA Y DERECHO</h1>
+                <p style="font-size: 1.5em; color: #2c3e50; margin-top: 20px;">
+                    Desafíos Tecnológicos en la Era Phigital
+                </p>
+                <p style="font-size: 1.2em; color: #7f8c8d; margin-top: 30px;">
+                    Una perspectiva interdisciplinaria sobre los retos académicos, personales y profesionales
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Introducción -->
+        <div class="slide">
+            <h2>💡 Generación Phigital</h2>
+            <div class="smart-design">
+                <div class="content-column">
+                    <p>Los profesionales actuales son <strong>nativos digitales</strong> que integran naturalmente:</p>
+                    <ul>
+                        <li>Mundo físico y digital sin fronteras</li>
+                        <li>Educación online y presencial con igual valor</li>
+                        <li>Enfoque pragmático hacia la tecnología</li>
+                        <li>Conexión directa entre estudio y aplicación profesional</li>
+                    </ul>
+                </div>
+                <div class="visual-column">
+                    <div class="info-card hybrid">
+                        <span class="icon">🌐</span>
+                        <h3>Phigital</h3>
+                        <p>Fusión entre físico y digital</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Objetivos -->
+        <div class="slide">
+            <h2>🎯 Objetivos del Análisis</h2>
+            <div class="infographic">
+                <div class="info-card">
+                    <span class="icon">🔍</span>
+                    <h3>Identificar</h3>
+                    <p>Retos TIC principales en ambas disciplinas</p>
+                </div>
+                <div class="info-card">
+                    <span class="icon">📊</span>
+                    <h3>Analizar</h3>
+                    <p>Impacto académico, personal y profesional</p>
+                </div>
+                <div class="info-card">
+                    <span class="icon">💡</span>
+                    <h3>Proponer</h3>
+                    <p>Soluciones y perspectivas futuras</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Reto 1 - Obsolescencia Tecnológica -->
+        <div class="slide">
+            <h2>⚡ RETO 1: Obsolescencia Tecnológica Acelerada</h2>
+            <div class="two-column">
+                <div>
+                    <div class="info-card engineering">
+                        <span class="icon">⚙️</span>
+                        <h3>Ingeniería</h3>
+                        <ul>
+                            <li>Tecnologías que cambian cada 6-12 meses</li>
+                            <li>Necesidad de actualización constante</li>
+                            <li>Inversión en herramientas costosas</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-card law">
+                        <span class="icon">⚖️</span>
+                        <h3>Derecho</h3>
+                        <ul>
+                            <li>Marco legal desfasado vs. innovación</li>
+                            <li>Jurisprudencia digital limitada</li>
+                            <li>Capacitación en nuevas plataformas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="citation">
+                "La obsolescencia programada del conocimiento requiere un aprendizaje continuo" - Castells, M. (2020)
+            </div>
+        </div>
+
+        <!-- Slide 5: Reto 2 - Ciberseguridad -->
+        <div class="slide">
+            <h2>🔒 RETO 2: Ciberseguridad y Protección de Datos</h2>
+            <div class="chart-container">
+                <h3 style="text-align: center; color: #e74c3c;">Niveles de Vulnerabilidad</h3>
+                <div style="margin: 20px 0;">
+                    <p>Datos Personales: <span style="color: #e74c3c;">85%</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%; background: #e74c3c;"></div>
+                    </div>
+                </div>
+                <div style="margin: 20px 0;">
+                    <p>Propiedad Intelectual: <span style="color: #f39c12;">70%</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 70%; background: #f39c12;"></div>
+                    </div>
+                </div>
+                <div style="margin: 20px 0;">
+                    <p>Infraestructura Crítica: <span style="color: #e67e22;">90%</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%; background: #e67e22;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Reto 3 - Inteligencia Artificial -->
+        <div class="slide">
+            <h2>🤖 RETO 3: Integración de Inteligencia Artificial</h2>
+            <div class="infographic">
+                <div class="info-card engineering">
+                    <span class="icon">🔧</span>
+                    <h3>Ingeniería</h3>
+                    <p><strong>Desafíos:</strong></p>
+                    <ul style="font-size: 1em;">
+                        <li>Automatización vs. empleo</li>
+                        <li>Interpretabilidad de algoritmos</li>
+                        <li>Integración con sistemas legacy</li>
+                    </ul>
+                </div>
+                <div class="info-card law">
+                    <span class="icon">📋</span>
+                    <h3>Derecho</h3>
+                    <p><strong>Desafíos:</strong></p>
+                    <ul style="font-size: 1em;">
+                        <li>Responsabilidad legal de IA</li>
+                        <li>Sesgos algorítmicos</li>
+                        <li>Regulación vs. innovación</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="citation">
+                "La IA transformará tanto la práctica como la regulación profesional" - Russell, S. (2019)
+            </div>
+        </div>
+
+        <!-- Slide 7: Reto 4 - Brecha Digital -->
+        <div class="slide">
+            <h2>📱 RETO 4: Brecha Digital y Acceso Equitativo</h2>
+            <div class="smart-design">
+                <div class="content-column">
+                    <h3 style="color: #e74c3c;">Dimensiones de la Brecha:</h3>
+                    <ul>
+                        <li><strong>Económica:</strong> Acceso a tecnología costosa</li>
+                        <li><strong>Geográfica:</strong> Conectividad rural limitada</li>
+                        <li><strong>Generacional:</strong> Adaptación tecnológica</li>
+                        <li><strong>Educativa:</strong> Alfabetización digital</li>
+                    </ul>
+                </div>
+                <div class="visual-column">
+                    <div class="info-card hybrid">
+                        <span class="icon">🌍</span>
+                        <h3>Impacto Global</h3>
+                        <p>3.7 mil millones sin acceso a internet</p>
+                        <div class="progress-bar" style="margin-top: 15px;">
+                            <div class="progress-fill" style="width: 52%; background: #e74c3c;"></div>
+                        </div>
+                        <p style="font-size: 0.9em; margin-top: 10px;">52% población mundial conectada</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Reto 5 - Ética Digital -->
+        <div class="slide">
+            <h2>🎭 RETO 5: Ética Digital y Responsabilidad Profesional</h2>
+            <div class="infographic">
+                <div class="info-card ethics">
+                    <span class="icon">🤔</span>
+                    <h3>Dilemas Éticos</h3>
+                    <ul style="font-size: 1em;">
+                        <li>Privacidad vs. Funcionalidad</li>
+                        <li>Transparencia algorítmica</li>
+                        <li>Impacto social de la tecnología</li>
+                    </ul>
+                </div>
+                <div class="info-card security">
+                    <span class="icon">⚖️</span>
+                    <h3>Marco Regulatorio</h3>
+                    <ul style="font-size: 1em;">
+                        <li>GDPR y protección de datos</li>
+                        <li>Normativas emergentes de IA</li>
+                        <li>Códigos deontológicos digitales</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="citation">
+                "La tecnología no es neutral; requiere decisiones éticas conscientes" - Winner, L. (2020)
+            </div>
+        </div>
+
+        <!-- Slide 9: Impacto Académico -->
+        <div class="slide">
+            <h2>🎓 Impacto en el Ámbito Académico</h2>
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #3498db;">Desafíos</h3>
+                    <ul>
+                        <li>Currículo desactualizado</li>
+                        <li>Infraestructura tecnológica limitada</li>
+                        <li>Formación docente insuficiente</li>
+                        <li>Evaluación de competencias digitales</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #27ae60;">Oportunidades</h3>
+                    <ul>
+                        <li>Aprendizaje personalizado</li>
+                        <li>Simulaciones avanzadas</li>
+                        <li>Colaboración global</li>
+                        <li>Acceso a recursos ilimitados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Impacto Personal -->
+        <div class="slide">
+            <h2>👤 Impacto en el Desarrollo Personal</h2>
+            <div class="infographic">
+                <div class="info-card">
+                    <span class="icon">🧠</span>
+                    <h3>Habilidades Requeridas</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Pensamiento crítico digital</li>
+                        <li>Adaptabilidad constante</li>
+                        <li>Aprendizaje autodirigido</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <span class="icon">⚖️</span>
+                    <h3>Balance Vida-Tecnología</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Gestión del tiempo digital</li>
+                        <li>Bienestar mental</li>
+                        <li>Relaciones interpersonales</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <span class="icon">📈</span>
+                    <h3>Crecimiento Profesional</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li>Networking digital</li>
+                        <li>Personal branding</li>
+                        <li>Competencias emergentes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Impacto Profesional -->
+        <div class="slide">
+            <h2>💼 Transformación del Ejercicio Profesional</h2>
+            <div class="smart-design">
+                <div class="content-column">
+                    <h3 style="color: #e74c3c;">Ingeniería</h3>
+                    <ul>
+                        <li>Diseño asistido por IA</li>
+                        <li>Internet de las Cosas (IoT)</li>
+                        <li>Gemelos digitales</li>
+                        <li>Fabricación aditiva</li>
+                    </ul>
+                </div>
+                <div class="content-column">
+                    <h3 style="color: #f39c12;">Derecho</h3>
+                    <ul>
+                        <li>LegalTech y automatización</li>
+                        <li>Contratos inteligentes</li>
+                        <li>Justicia predictiva</li>
+                        <li>Mediación online</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Casos de Estudio -->
+        <div class="slide">
+            <h2>📚 Casos de Estudio Relevantes</h2>
+            <div class="infographic">
+                <div class="info-card engineering">
+                    <span class="icon">🏗️</span>
+                    <h3>Caso Ingeniería</h3>
+                    <p><strong>BIM en Construcción</strong></p>
+                    <p style="font-size: 0.9em;">Adopción del Building Information Modeling revoluciona diseño y construcción, pero requiere capacitación masiva</p>
+                </div>
+                <div class="info-card law">
+                    <span class="icon">🏛️</span>
+                    <h3>Caso Derecho</h3>
+                    <p><strong>Expediente Electrónico</strong></p>
+                    <p style="font-size: 0.9em;">Digitalización judicial mejora eficiencia pero plantea retos de seguridad y acceso</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Soluciones Propuestas -->
+        <div class="slide">
+            <h2>💡 Soluciones y Estrategias</h2>
+            <div class="infographic">
+                <div class="info-card">
+                    <span class="icon">📚</span>
+                    <h3>Educación Continua</h3>
+                    <p>Programas de actualización profesional y certificaciones digitales</p>
+                </div>
+                <div class="info-card">
+                    <span class="icon">🤝</span>
+                    <h3>Colaboración Interdisciplinaria</h3>
+                    <p>Equipos mixtos ingeniería-derecho para abordar retos complejos</p>
+                </div>
+                <div class="info-card">
+                    <span class="icon">🛡️</span>
+                    <h3>Marco Ético Robusto</h3>
+                    <p>Desarrollo de códigos éticos específicos para era digital</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Argumentación Personal -->
+        <div class="slide">
+            <h2>🎯 Argumentación y Postura Personal</h2>
+            <div class="conclusion-box">
+                <h3>Perspectiva Integrada</h3>
+                <p style="font-size: 1.1em; line-height: 1.6;">
+                    Los retos TIC no son obstáculos sino <strong>catalizadores de evolución profesional</strong>. 
+                    La convergencia entre Ingeniería y Derecho es inevitable y necesaria para abordar la 
+                    complejidad tecnológica actual.
+                </p>
+            </div>
+            <div style="text-align: left; max-width: 900px;">
+                <h3 style="color: #2c3e50;">Argumentos Clave:</h3>
+                <ul>
+                    <li>La adaptación tecnológica es una competencia profesional fundamental</li>
+                    <li>La colaboración interdisciplinaria potencia la resolución de problemas complejos</li>
+                    <li>La ética digital debe ser transversal a ambas disciplinas</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 15: Conclusiones -->
+        <div class="slide">
+            <h2>🔚 Conclusiones</h2>
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #27ae60;">Oportunidades</h3>
+                    <ul>
+                        <li>Nuevos campos profesionales emergentes</li>
+                        <li>Herramientas más potentes y eficientes</li>
+                        <li>Alcance global de servicios</li>
+                        <li>Democratización del conocimiento</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #e74c3c;">Recomendaciones</h3>
+                    <ul>
+                        <li>Invertir en formación continua</li>
+                        <li>Desarrollar competencias híbridas</li>
+                        <li>Promover la colaboración interdisciplinaria</li>
+                        <li>Establecer marcos éticos sólidos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Referencias -->
+        <div class="slide">
+            <h2>📖 Referencias Bibliográficas</h2>
+            <div style="text-align: left; max-width: 1000px; font-size: 1em;">
+                <div class="citation" style="text-align: left; margin: 15px 0;">
+                    <strong>Castells, M.</strong> (2020). <em>La era de la información: Economía, sociedad y cultura</em>. 
+                    Siglo XXI Editores. https://creativecommons.org/licenses/by-nc-sa/4.0/
+                </div>
+                <div class="citation" style="text-align: left; margin: 15px 0;">
+                    <strong>Russell, S.</strong> (2019). <em>Human Compatible: Artificial Intelligence and the Problem of Control</em>. 
+                    Viking Press. https://creativecommons.org/licenses/by/4.0/
+                </div>
+                <div class="citation" style="text-align: left; margin: 15px 0;">
+                    <strong>Winner, L.</strong> (2020). <em>The Whale and the Reactor: A Search for Limits in an Age of High Technology</em>. 
+                    University of Chicago Press. https://creativecommons.org/licenses/by-sa/4.0/
+                </div>
+                <div class="citation" style="text-align: left; margin: 15px 0;">
+                    <strong>Licencia Creative Commons:</strong> Este trabajo está bajo una licencia Creative Commons 
+                    Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Anterior</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Siguiente →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            
+            // Animate progress bars when they become visible
+            if (currentSlide === 4) { // Slide de ciberseguridad
+                setTimeout(() => {
+                    const progressBars = document.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        bar.style.width = bar.style.width;
+                    });
+                }, 100);
+            }
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
